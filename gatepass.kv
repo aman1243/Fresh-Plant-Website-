@@ -1,0 +1,194 @@
+#:kivy 2.1.0
+
+<LoginScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 20
+        spacing: 10
+
+        Label:
+            text: 'Gate Pass Login'
+            font_size: 24
+
+        TextInput:
+            id: user_input
+            hint_text: "User ID"
+
+        TextInput:
+            id: pwd_input
+            hint_text: "Password"
+            password: True
+
+        Label:
+            id: message
+            color: 1, 0, 0, 1
+
+        Button:
+            text: 'Login'
+            on_press: root.login()
+
+<MainScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: 10
+        padding: 20
+
+        Label:
+            text: root.welcome_text()
+            font_size: 20
+
+        Button:
+            id: btn_entry
+            text: 'Gatepass Entry'
+            on_press: root.manager.current = 'entry'
+
+        Button:
+            id: btn_view
+            text: 'View Gatepass'
+            on_press: root.manager.current = 'gatepass'
+
+        Button:
+            id: btn_approval
+            text: 'Approval'
+            on_press: root.go_to_approval()
+
+        Button:
+            id: btn_scan
+            text: 'Scan'
+            on_press: root.manager.current = 'scan'
+
+        Button:
+            id: btn_exit
+            text: 'Logout'
+            on_press: root.logout()
+
+<EntryScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: 10
+        padding: 20
+
+        TextInput:
+            id: empid
+            readonly: True
+
+        TextInput:
+            id: name
+            readonly: True
+
+        TextInput:
+            id: time
+            readonly: True
+
+        TextInput:
+            id: reason
+            hint_text: "Reason"
+
+        Button:
+            text: 'Submit'
+            on_press: root.submit()
+
+<ManagerScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 20
+        spacing: 10
+
+        Label:
+            id: label_review
+            text: 'No request to review'
+            font_size: '18sp'
+            size_hint_y: 0.6
+
+        BoxLayout:
+            size_hint_y: None
+            height: '40dp'
+            spacing: 10
+
+            Button:
+                text: 'Approve'
+                on_press: root.approve(True)
+
+            Button:
+                text: 'Reject'
+                on_press: root.approve(False)
+
+        Button:
+            text: 'Back'
+            size_hint_y: None
+            height: '40dp'
+            on_press: root.manager.current = 'main'
+
+<HRScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            id: label_hr
+            text: ""
+            font_size: 20
+
+        Label:
+            id: label_review
+            text: 'No request to review'
+            font_size: '18sp'
+            size_hint_y: 0.6
+
+        BoxLayout:
+            size_hint_y: None
+            height: '40dp'
+            spacing: 10
+
+            Button:
+                text: 'Approve'
+                on_press: root.hr_handle(True)
+
+            Button:
+                text: 'Reject'
+                on_press: root.hr_handle(False)
+
+        Button:
+            text: 'Back'
+            size_hint_y: None
+            height: '40dp'
+            on_press: root.manager.current = 'main'
+
+<GatePassScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 20
+        spacing: 10
+
+        Label:
+            id: label_pass
+            text: ''
+
+        Image:
+            id: qr_image
+            allow_stretch: True
+
+        BoxLayout:
+            size_hint_y: None
+            height: '40dp'
+            spacing: 10
+
+            Button:
+                text: 'Download QR'
+                on_press: root.download_qr()
+
+            Button:
+                text: 'Back'
+                on_press: root.manager.current = 'main'
+<ScanScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 20
+        spacing: 20
+
+        Button:
+            text: 'Scan QR Code'
+            on_press: root.grant()
+
+        Label:
+            id: scan_label
+            text: ''
+            font_size: 18
